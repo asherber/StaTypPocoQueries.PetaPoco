@@ -12,30 +12,25 @@ namespace StaTypPocoQueries.PetaPoco
 {
     public static class DatabaseExtensions
     {
-        // This can be redone to use db.Provider.EscapeSqlIdentifier
-        private static Translator.SqlDialect GetDialect(this Database db)
+        private class Quoter : Translator.IQuoter
         {
-            switch (db.Provider.GetType().Name)
+            private readonly Database _db;
+            public Quoter(Database db)
             {
-                case ("MariaDbDatabaseProvider"):
-                case ("MySqlDatabaseProvider"):
-                    return Translator.SqlDialect.MySql;
-                case ("OracleDatabaseProvider"):
-                    return Translator.SqlDialect.Oracle;
-                case ("PostgreSQLDatabaseProvider"):
-                    return Translator.SqlDialect.Postgresql;
-                case ("SQLiteDatabaseProvider"):
-                    return Translator.SqlDialect.Sqlite;
-                default:
-                    return Translator.SqlDialect.SqlServer;
-            }            
+                _db = db;
+            }
+
+            public string QuoteColumn(string columnName) => _db.Provider.EscapeSqlIdentifier(columnName);
         }
+
+        private static Translator.IQuoter GetQuoter(this Database db) => new Quoter(db);
 
         private static Sql ToSql<T>(this Expression<Func<T, bool>> query, Database db)
         {
-            var translated = ExpressionToSql.Translate(db.GetDialect().Quoter, query);
+            var translated = ExpressionToSql.Translate(db.GetQuoter(), query);
             return new Sql(translated.Item1, translated.Item2);
         }
+
 
         public static List<T> Fetch<T>(this Database db, Expression<Func<T, bool>> query) 
             => db.Fetch<T>(query.ToSql(db));
