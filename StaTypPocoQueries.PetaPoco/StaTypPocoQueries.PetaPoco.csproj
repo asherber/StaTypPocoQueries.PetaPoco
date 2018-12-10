@@ -5,14 +5,10 @@
     <AssemblyName>StaTypPocoQueries.PetaPoco</AssemblyName>
     <RootNamespace>StaTypPocoQueries.PetaPoco</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Authors>Aaron Sherber</Authors>
-    <Copyright>2018</Copyright>
-    <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
-    <Company />
     <Description>PetaPoco bindings for StaTypPocoQueries.</Description>
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/asherber/StaTypPocoQueries.PetaPoco</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/database-64.png</PackageIconUrl>
+    <Authors>Aaron Sherber</Authors>
+    <NuspecFile>StaTypPocoQueries.PetaPoco.nuspec</NuspecFile>
+    <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,5 +18,16 @@
   <ItemGroup>
     <ProjectReference Include="..\statically-typed-poco-queries\StaTypPocoQueries.Core\StaTypPocoQueries.Core.fsproj" />
   </ItemGroup>
+
+  <Target Name="SetNuspecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuspecProperties>$(NuspecProperties);id=$(AssemblyName)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);config=$(Configuration)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);version=$(PackageVersion)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);description=$(Description)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);authors=$(Authors)</NuspecProperties> 
+    </PropertyGroup>
+    <Message Importance="high" Text="NuspecProperties: $(NuspecProperties)" />
+  </Target>
 
 </Project>
