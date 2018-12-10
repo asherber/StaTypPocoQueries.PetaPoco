@@ -61,7 +61,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             {
                 db.Fetch<MyClass>(c => c.ID == 4);
 
-                db.LastSQL.Should().Be("SELECT [MyClass].[ID], [MyClass].[Name] FROM [MyClass] where [ID] = @0");
+                db.LastSQL.Should().Be("SELECT [MyClass].[ID], [MyClass].[Name] FROM [MyClass] WHERE [ID] = @0");
                 db.LastArgs.Should().BeEquivalentTo(4);             
             }
         }
@@ -73,7 +73,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             {
                 db.Delete<MyClass>(c => c.Name == "Bob");
 
-                db.LastSQL.Should().Be("DELETE FROM [MyClass]\nwhere [Name] = @0");
+                db.LastSQL.Should().Be("DELETE FROM [MyClass]\nWHERE [Name] = @0");
                 db.LastArgs.Should().BeEquivalentTo(new[] { "Bob" });
             }
         }
