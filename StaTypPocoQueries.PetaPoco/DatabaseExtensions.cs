@@ -14,7 +14,7 @@ namespace StaTypPocoQueries.PetaPoco
 {
     public static class DatabaseExtensions
     {
-        private class Quoter : Translator.IQuoter
+        public class Quoter : Translator.IQuoter
         {
             private readonly Database _db;
 
