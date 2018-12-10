@@ -14,27 +14,15 @@ namespace StaTypPocoQueries.PetaPoco
 {
     public static class DatabaseExtensions
     {
-        public class Quoter : Translator.IQuoter
-        {
-            private readonly Database _db;
-
-            public Quoter(Database db)
-            {
-                _db = db;
-            }
-
-            public string QuoteColumn(string columnName) => _db.Provider.EscapeSqlIdentifier(columnName);
-        }
-
         private static Sql ToSql<T>(this Expression<Func<T, bool>> query, Database db)
         {
-            var translated = ExpressionToSql.Translate(new Quoter(db), query);
+            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
             return new Sql(translated.Item1, translated.Item2);
         }
 
         private static Sql ToSql<T>(this FSharpExpr<FSharpFunc<T, bool>> query, Database db)
         {
-            var translated = ExpressionToSql.Translate(new Quoter(db), query);
+            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
             return new Sql(translated.Item1, translated.Item2);
         }
 

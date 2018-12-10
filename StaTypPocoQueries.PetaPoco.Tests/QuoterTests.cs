@@ -27,7 +27,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             
             using (var db = new Database("asdf", "AngleDatabaseProvider"))
             {
-                var quoter = new DatabaseExtensions.Quoter(db);
+                var quoter = new DatabaseQuoter(db);
                 var output = quoter.QuoteColumn("Foo");
                 output.Should().Be("<Foo>");
             }
