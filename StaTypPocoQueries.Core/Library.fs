@@ -31,7 +31,7 @@ module Translator =
 
     let literalToSql (v:obj) (curParams:_ list) =
         match v with
-        | null | :? DBNull -> true, "null", None
+        | null | :? DBNull -> true, "NULL", None
         | _ -> false, sprintf "@%i" curParams.Length, Some v 
         //use sqlparameters instead of inline sql due to PetaPoco's static query cache growing
 
@@ -57,8 +57,8 @@ module Translator =
 
         let oper = 
             match (rNull, body.NodeType) with
-            | true, ExpressionType.NotEqual -> " is not "
-            | true, ExpressionType.Equal -> " is "
+            | true, ExpressionType.NotEqual -> " IS NOT "
+            | true, ExpressionType.Equal -> " IS "
             | false, _ -> sprintf " %s " sqlOperator
             | _ -> failwithf "unsupported nodetype %A" body
 
@@ -85,8 +85,8 @@ module Translator =
         
     let junctionToSqlOper (body:BinaryExpression) =
         match body.NodeType with
-        | ExpressionType.AndAlso -> Some "and"
-        | ExpressionType.OrElse -> Some "or"
+        | ExpressionType.AndAlso -> Some "AND"
+        | ExpressionType.OrElse -> Some "OR"
         | _ -> None
         
     let sqlInBracketsIfNeeded parentJunction junctionSql sql = 
@@ -146,7 +146,7 @@ module LinqHelpers =
 type ExpressionToSql = 
     static member Translate<'T>(quoter, conditions:Expression<Func<'T, bool>>, includeWhere) =
         let sql, parms = Translator.comparisonToWhereClause quoter conditions.Body None List.empty
-        let where = if includeWhere then "where " else ""
+        let where = if includeWhere then "WHERE " else ""
         new Tuple<_,_>(where + sql, parms |> List.rev |> Array.ofList)
 
     static member Translate(quoter:Translator.IQuoter, conditions:Quotations.Expr<(_ -> bool)>, includeWhere) = 

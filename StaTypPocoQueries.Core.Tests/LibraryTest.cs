@@ -44,131 +44,131 @@ namespace StaTypPocoQueries.Core.Tests {
             // equals not null variable
             
             var aVar = 5;
-            AreEqual("where <anInt> = @0", new object[] {5}, 
+            AreEqual("WHERE <anInt> = @0", new object[] {5}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt == aVar));
             
             var dt = new DateTime(2001, 2, 3, 4, 5, 6);
-            AreEqual("where <aDate> = @0", new object[] {dt}, 
+            AreEqual("WHERE <aDate> = @0", new object[] {dt}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aDate == dt));
         }
           
         [Fact]
         public void TestGreaterSmaller() {
             var aVar = 5;
-            AreEqual("where <anInt> >= @0", new object[] {5}, 
+            AreEqual("WHERE <anInt> >= @0", new object[] {5}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt >= aVar));
             
-            AreEqual("where <anInt> <= @0", new object[] {5}, 
+            AreEqual("WHERE <anInt> <= @0", new object[] {5}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt <= aVar));
             
-            AreEqual("where <anInt> > @0", new object[] {5}, 
+            AreEqual("WHERE <anInt> > @0", new object[] {5}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt > aVar));
             
-            AreEqual("where <anInt> < @0", new object[] {5}, 
+            AreEqual("WHERE <anInt> < @0", new object[] {5}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt < aVar));
         }
 
         [Fact]
         public void TestEqualsNonNullBoolLiteral() {
-            AreEqual("where <aBool> = @0", new object[] {false}, 
+            AreEqual("WHERE <aBool> = @0", new object[] {false}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => !x.aBool));
-            AreEqual("where <aBool> = @0", new object[] {true}, 
+            AreEqual("WHERE <aBool> = @0", new object[] {true}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aBool));
         }
         
         [Fact]
         public void TestEqualsNullableVariable() {            
-            AreEqual("where <nullableInt> = @0", new object[] {(int?)0}, 
+            AreEqual("WHERE <nullableInt> = @0", new object[] {(int?)0}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableInt == 0));
-            AreEqual("where <nullableDecimal> = @0", new object[] {(decimal?)0M}, 
+            AreEqual("WHERE <nullableDecimal> = @0", new object[] {(decimal?)0M}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDecimal == 0M));
-            AreEqual("where <nullableLong> = @0", new object[] {(long?)123L}, 
+            AreEqual("WHERE <nullableLong> = @0", new object[] {(long?)123L}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableLong == 123L));
 
             var dt = new DateTime(2001, 2, 3, 4, 5, 6);
-            AreEqual("where <nullableDate> = @0", new object[] {dt}, 
+            AreEqual("WHERE <nullableDate> = @0", new object[] {dt}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDate == dt));
 
-            AreEqual("where <nullableBool> = @0", new object[] {(bool?)true},
+            AreEqual("WHERE <nullableBool> = @0", new object[] {(bool?)true},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableBool == true));
         }
         
         [Fact]
         public void TestEqualsNullableIsNull() {            
-            AreEqual("where <nullableInt> is null", 
+            AreEqual("WHERE <nullableInt> IS NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableInt == null));
-            AreEqual("where <nullableDecimal> is null", 
+            AreEqual("WHERE <nullableDecimal> IS NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDecimal == null));
-            AreEqual("where <nullableLong> is null", 
+            AreEqual("WHERE <nullableLong> IS NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableLong == null));
-            AreEqual("where <nullableDate> is null", 
+            AreEqual("WHERE <nullableDate> IS NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDate == null));
-            AreEqual("where <nullableBool> is null", 
+            AreEqual("WHERE <nullableBool> IS NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableBool == null));            
         }
 
         [Fact]
         public void TestEqualsNullableIsNotNull() {            
-            AreEqual("where <nullableInt> is not null", 
+            AreEqual("WHERE <nullableInt> IS NOT NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableInt != null, true));
-            AreEqual("where <nullableDecimal> is not null", 
+            AreEqual("WHERE <nullableDecimal> IS NOT NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDecimal != null, true));
-            AreEqual("where <nullableLong> is not null", 
+            AreEqual("WHERE <nullableLong> IS NOT NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableLong != null));
-            AreEqual("where <nullableDate> is not null", 
+            AreEqual("WHERE <nullableDate> IS NOT NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableDate != null));
-            AreEqual("where <nullableBool> is not null", 
+            AreEqual("WHERE <nullableBool> IS NOT NULL", 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.nullableBool != null));            
         }
 
         [Fact]
         public void TestEqualsNonNullLiteral() {
             var dt = new DateTime(2001,2,3);
-            AreEqual("where <aDate> = @0", new object[] {new DateTime(2001,2,3)},
+            AreEqual("WHERE <aDate> = @0", new object[] {new DateTime(2001,2,3)},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aDate == dt));
-            AreEqual("where <anInt> = @0", new object[] {0}, 
+            AreEqual("WHERE <anInt> = @0", new object[] {0}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.anInt == 0));
-            AreEqual("where <aDecimal> = @0", new object[] {0M}, 
+            AreEqual("WHERE <aDecimal> = @0", new object[] {0M}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aDecimal == 0M));
-            AreEqual("where <aLong> = @0", new object[] {123L}, 
+            AreEqual("WHERE <aLong> = @0", new object[] {123L}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aLong == 123));
-            AreEqual("where <aString> = @0", new object[] {"foo"}, 
+            AreEqual("WHERE <aString> = @0", new object[] {"foo"}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aString == "foo"));
-            AreEqual("where <aBool> = @0", new object[] {true}, 
+            AreEqual("WHERE <aBool> = @0", new object[] {true}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, x => x.aBool == true));
         }
         
         [Fact]
         public void TestConjunctions() {
-            AreEqual("where <aBool> = @0 and <aBool> = @1", new object[] {true, false}, 
+            AreEqual("WHERE <aBool> = @0 AND <aBool> = @1", new object[] {true, false}, 
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.aBool && !x.aBool));
 
-            AreEqual("where <anInt> = @0 and <aString> = @1", new object[] {0, "foo"},
+            AreEqual("WHERE <anInt> = @0 AND <aString> = @1", new object[] {0, "foo"},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.anInt == 0 && x.aString == "foo"));
 
-            AreEqual("where <anInt> = @0 or <aString> = @1", new object[] {0, "foo"},
+            AreEqual("WHERE <anInt> = @0 OR <aString> = @1", new object[] {0, "foo"},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.anInt == 0 || x.aString == "foo"));
 
-            AreEqual("where <anInt> = @0 and <aString> = @1 and <aLong> = @2", new object[] {0, "foo", 0L},
+            AreEqual("WHERE <anInt> = @0 AND <aString> = @1 AND <aLong> = @2", new object[] {0, "foo", 0L},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.anInt == 0 && x.aString == "foo" && x.aLong == 0));
             
-            AreEqual("where <anInt> = @0 or <aString> = @1 or <aLong> = @2", new object[] {0, "foo", 0L},
+            AreEqual("WHERE <anInt> = @0 OR <aString> = @1 OR <aLong> = @2", new object[] {0, "foo", 0L},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.anInt == 0 || x.aString == "foo" || x.aLong == 0));
 
-            AreEqual("where <anInt> = @0 and (<aString> = @1 or <aLong> = @2)", new object[] {0, "foo", 0L},
+            AreEqual("WHERE <anInt> = @0 AND (<aString> = @1 OR <aLong> = @2)", new object[] {0, "foo", 0L},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => x.anInt == 0 && (x.aString == "foo" || x.aLong == 0)));
             
-            AreEqual("where (<anInt> = @0 and <aString> = @1) or <aLong> = @2", new object[] {0, "foo", 0L},
+            AreEqual("WHERE (<anInt> = @0 AND <aString> = @1) OR <aLong> = @2", new object[] {0, "foo", 0L},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => (x.anInt == 0 && x.aString == "foo") || x.aLong == 0));
             
-            AreEqual("where (<anInt> = @0 and <aString> = @1) or (<aLong> = @2 and <aString> = @3)", 
+            AreEqual("WHERE (<anInt> = @0 AND <aString> = @1) OR (<aLong> = @2 AND <aString> = @3)", 
                 new object[] {0, "foo", 0L, "foo"},
                 ExpressionToSql.Translate<SomeEntity>(TestQuoter.Instance, 
                     x => (x.anInt == 0 && x.aString == "foo") || (x.aLong == 0 && x.aString == "foo")));
