@@ -1,66 +1,37 @@
-![Icon](https://github.com/asherber/PetaPoco.SqlKata/raw/master/media/database-64.png)
+![Icon](https://github.com/asherber/StaTypPocoQueries.PetaPoco/raw/master/media/static-64.png)
 
-# PetaPoco.SqlKata [![NuGet](https://img.shields.io/nuget/v/PetaPoco.SqlKata.svg)](https://nuget.org/packages/PetaPoco.SqlKata)
+# StaTypPocoQueries.PetaPoco [![NuGet](https://img.shields.io/nuget/v/StaTypPocoQueries.PetaPoco.svg)](https://nuget.org/packages/StaTypPocoQueries.PetaPoco)
 
-[PetaPoco](https://github.com/CollaboratingPlatypus/PetaPoco) is a handy micro-ORM, but the SQL builder that comes with it is extremely limited. This library lets you use [SqlKata](https://sqlkata.com) as a replacement query builder.
+[PetaPoco](https://github.com/CollaboratingPlatypus/PetaPoco) bindings for [StaTypPocoQueries](https://github.com/d-p-y/statically-typed-poco-queries), allowing you to use some simple, strongly typed LINQ expressions in your queries. 
+
+`Database` extension methods are provided for `Query()`, `Fetch()`, `Page()`, `SkipTake()`, `Single()`, `SingleOrDefault()`, `First()`, `FirstOrDefault()`, and `Delete()`, essentially letting you use an expression in place of a hand-written `WHERE` clause. Column names are escaped using the `DatabaseProvider` for the `Database`.
+
+Because StaTypPocoQueries includes support for F# quotations, bringing FSharp.Core along for the ride, this library supports those as well.
 
 ## Usage
 
-### Basic
-
-```csharp
-using (var db = new PetaPoco.Database(...))
-{
-    // Build any SqlKata query
-    var query = new Query("MyTable")
-        .Where("Foo", "bar");
-    
-    // Use the query in place of PetaPoco.Sql
-    var records = db.Fetch<MyClass>(query.ToSql());
-}
-
-```
-
-Note that while PetaPoco has an `EnableAutoSelect` feature that lets you omit the `SELECT` part of a query if your classes are set up correctly, SqlKata requires a table name in order to generate a query. If you try to use a `Query` without a table name, SqlKata will throw an `InvalidOperationException` when you call `ToSql()`.
-
-### Generate from POCO
-
-Since part of the benefit of PetaPoco is that it understands information embedded in a POCO, this library also has two extension methods to help do the same thing, letting you avoid retyping table and column names.
+These examples assume that `Database.EnableAutoSelect == true`, so that the `SELECT` (or `DELETE`) portion of the SQL command is generated for you.
 
 ```csharp
 public class MyClass
 {
-    property int ID { get; set; }
-    [Column("NAME_FIELD")]
-    property string Name { get; set; }
+    public int ID { get; set; }
+    public string Name { get; set; }    
 }
 
-// These are all equivalent to new Query("MyClass")
-// If the class has a TableName property, that will be used instead.
-var query = new Query().ForType<MyClass>();
-var query = new Query().ForType(typeof(MyClass));
-var query = new Query().ForObject(new MyClass());
+// Equivalent to db.Query<MyClass>("WHERE [ID] = @0", 4)
+db.Query<MyClass>(c => c.ID == 4);
 
-// SELECT [ID], [NAME_FIELD] FROM [MyClass]
-var query = new Query().GenerateSelect<MyClass>();  
-var query = new Query().GenerateSelect(typeof(MyClass));
-var query = new Query().GenerateSelect(new MyClass());
+// Equivalent to db.Query<MyClass>("WHERE [ID] > @0", 8)
+db.Query<MyClass>(c => c.ID > 8);
 
-```
+// Equivalent to db.Query<MyClass>("WHERE [Name] IS NULL")
+db.Query<MyClass>(c => c.Name == null);
 
-These methods all use a default `ConventionMapper`. They also have overloads that let you pass in your own `IMapper` instance. 
+// Equivalent to db.Query<MyClass>("WHERE [ID] = @0 OR [ID] = @1", new [] { 1, 2 })
+db.Query<MyClass>(c => c.ID == 1 || c.ID == 2);
 
-### Compilers
-
-Transforming a SqlKata `Query` into a SQL string requires a compiler. SqlKata comes with compilers for SQL Server, Postgres, MySql, and Firebird. For many simple queries, the generated SQL looks the same regardless of which compiler you use, but for certain queries the compiler will produce SQL tailored for that specific database. The compilers also know which characters to use to escape identifiers.
-
-By default, this library uses the SQL Server compiler. If you want to use a different compiler, there are a couple of different ways you can do so.
-
-```csharp
-// Specify the compiler for one SQL statement
-var sql = query.ToSql(CompilerType.MySql);
-
-// Change the default compiler for all SQL statements
-SqlKataExtensions.DefaultCompiler = CompilerType.Postgres;
+// Equivalent to db.Query<MyClass>("WHERE [ID] = @0 AND [Name] = @1", new object[] { 10, "Bob" })
+db.Query<MyClass>(c => c.ID == 10 && c.Name == "Bob");
 ```
 
