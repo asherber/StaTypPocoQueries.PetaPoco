@@ -9,8 +9,9 @@ using Microsoft.FSharp.Quotations;
 using PetaPoco;
 using PetaPoco.Providers;
 using StaTypPocoQueries.Core;
+using StaTypPocoQueries.PetaPoco;
 
-namespace StaTypPocoQueries.PetaPoco
+namespace PetaPoco
 {
     public static class DatabaseExtensions
     {
