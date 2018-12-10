@@ -15,6 +15,7 @@ namespace StaTypPocoQueries.PetaPoco
         private class Quoter : Translator.IQuoter
         {
             private readonly Database _db;
+
             public Quoter(Database db)
             {
                 _db = db;
@@ -23,11 +24,9 @@ namespace StaTypPocoQueries.PetaPoco
             public string QuoteColumn(string columnName) => _db.Provider.EscapeSqlIdentifier(columnName);
         }
 
-        private static Translator.IQuoter GetQuoter(this Database db) => new Quoter(db);
-
         private static Sql ToSql<T>(this Expression<Func<T, bool>> query, Database db)
         {
-            var translated = ExpressionToSql.Translate(db.GetQuoter(), query);
+            var translated = ExpressionToSql.Translate(new Quoter(db), query);
             return new Sql(translated.Item1, translated.Item2);
         }
 
