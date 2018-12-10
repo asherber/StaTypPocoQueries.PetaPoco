@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaTypPocoQueries.PetaPoco", "StaTypPocoQueries.PetaPoco\StaTypPocoQueries.PetaPoco.csproj", "{95C9D5D5-49FB-4540-875F-D6D499CCDF5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaTypPocoQueries.PetaPoco", "StaTypPocoQueries.PetaPoco\StaTypPocoQueries.PetaPoco.csproj", "{95C9D5D5-49FB-4540-875F-D6D499CCDF5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaTypPocoQueries.PetaPoco.Tests", "StaTypPocoQueries.PetaPoco.Tests\StaTypPocoQueries.PetaPoco.Tests.csproj", "{EDAC5415-091B-4A11-9D1C-13D79529556E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaTypPocoQueries.PetaPoco.Tests", "StaTypPocoQueries.PetaPoco.Tests\StaTypPocoQueries.PetaPoco.Tests.csproj", "{EDAC5415-091B-4A11-9D1C-13D79529556E}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "StaTypPocoQueries.Core", "StaTypPocoQueries.Core\StaTypPocoQueries.Core.fsproj", "{114D9B01-EC37-4500-8784-DBD32528D8A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaTypPocoQueries.Core.Tests", "StaTypPocoQueries.Core.Tests\StaTypPocoQueries.Core.Tests.csproj", "{ED3EB9E7-04AC-452A-A61C-87A378E8C6E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{EDAC5415-091B-4A11-9D1C-13D79529556E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDAC5415-091B-4A11-9D1C-13D79529556E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDAC5415-091B-4A11-9D1C-13D79529556E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114D9B01-EC37-4500-8784-DBD32528D8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114D9B01-EC37-4500-8784-DBD32528D8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114D9B01-EC37-4500-8784-DBD32528D8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114D9B01-EC37-4500-8784-DBD32528D8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3EB9E7-04AC-452A-A61C-87A378E8C6E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3EB9E7-04AC-452A-A61C-87A378E8C6E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3EB9E7-04AC-452A-A61C-87A378E8C6E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3EB9E7-04AC-452A-A61C-87A378E8C6E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
