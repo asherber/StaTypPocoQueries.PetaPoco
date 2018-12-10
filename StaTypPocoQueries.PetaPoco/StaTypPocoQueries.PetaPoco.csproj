@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
+    <AssemblyName>StaTypPocoQueries.PetaPoco</AssemblyName>
+    <RootNamespace>StaTypPocoQueries.PetaPoco</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Aaron Sherber</Authors>
+    <Copyright>2018</Copyright>
+    <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
+    <Company />
+    <Description>PetaPoco bindings for StaTypPocoQueries.</Description>
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/asherber/StaTypPocoQueries.PetaPoco</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/database-64.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="StaTypPocoQueries.Core">
+      <Version>1.6.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PetaPoco.Compiled" Version="6.0.353" />
+  </ItemGroup>
+
+</Project>
