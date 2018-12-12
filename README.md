@@ -8,8 +8,6 @@
 
 Because StaTypPocoQueries.Core includes support for F# quotations, bringing FSharp.Core along for the ride, this library supports those as well. 
 
-Note that the NuGet package include its own copy of StaTypPocoQueries.Core, rather than referencing that library's NuGet package. This is so that the package can target .NET 4.5 as well as .NET Standard 2.0 (the published NuGet for StaTypPocoQueries.Core is .NET Standard only). The private version also uppercases reserved words in the generated SQL that are lowercased in the published version.
-
 ## Usage
 
 These examples assume that `Database.EnableAutoSelect == true`, so that the `SELECT` (or `DELETE`) portion of the SQL command is generated for you based on your POCO class. For this reason, the library cannot be used with `dynamic`.
