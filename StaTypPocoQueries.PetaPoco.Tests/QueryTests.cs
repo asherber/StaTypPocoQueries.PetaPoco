@@ -4,10 +4,12 @@ using Xunit;
 using PetaPoco.Providers;
 using PetaPoco;
 using System.Data;
-using SQLDatabase.Net.SQLDatabaseClient;
 using StaTypPocoQueries.PetaPoco;
 using FluentAssertions;
 using System.Data.Common;
+using Moq;
+using System.Collections.Generic;
+using AutoFixture.Xunit2;
 
 namespace StaTypPocoQueries.PetaPoco.Tests
 {
@@ -20,7 +22,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
      * just to test that. Delete needs to be tested separately.
      */
 
-    public class QueryTests: IDisposable
+    public class QueryTests
     {
         private class MyClass
         {
@@ -28,54 +30,32 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             public string Name { get; set; }
         }
 
-        private class SqlDatabaseProvider : DatabaseProvider
-        {
-            public override DbProviderFactory GetFactory() => null;
-        }
-
-        private IDbConnection _conn;
+        private Mock<IDatabase> _mockDb;
+        private Sql _lastSql;
 
         public QueryTests()
         {
-            DatabaseProvider.RegisterCustomProvider<SqlDatabaseProvider>("SQLD");
-
-            _conn = new SqlDatabaseConnection("SchemaName=PetaPoco;uri=@memory");
-            _conn.Open();
-
-            // Create an empty table, since we don't care about the results
-            var cmd = _conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "CREATE TABLE MYCLASS (ID INTEGER INTEGER NOT NULL, NAME TEXT)";
-            cmd.ExecuteNonQuery();
+            _mockDb = new Mock<IDatabase>();
+            _mockDb.Setup(m => m.Query<MyClass>(It.IsAny<Sql>()))
+                .Returns(new List<MyClass>())
+                .Callback<Sql>(s => _lastSql = s);
+            _mockDb.Setup(m => m.Delete<MyClass>(It.IsAny<Sql>()))
+                .Callback<Sql>(s => _lastSql = s);
+            _mockDb.Setup(m => m.Provider).Returns(new AngleDatabaseProvider());
         }
 
-        public void Dispose()
-        {
-            _conn.Dispose();
+        [Theory, AutoData]
+        public void Query(int id)
+        {            
+            _mockDb.Object.Query<MyClass>(c => c.ID == id);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <ID> = @0", id));
         }
 
-        [Fact]
-        public void Query()
+        [Theory, AutoData]
+        public void Delete(string name)
         {
-            using (var db = new Database(_conn))
-            {
-                db.Fetch<MyClass>(c => c.ID == 4);
-
-                db.LastSQL.Should().Be("SELECT [MyClass].[ID], [MyClass].[Name] FROM [MyClass] WHERE [ID] = @0");
-                db.LastArgs.Should().BeEquivalentTo(4);             
-            }
-        }
-
-        [Fact]
-        public void Delete()
-        {
-            using (var db = new Database(_conn))
-            {
-                db.Delete<MyClass>(c => c.Name == "Bob");
-
-                db.LastSQL.Should().Be("DELETE FROM [MyClass]\nWHERE [Name] = @0");
-                db.LastArgs.Should().BeEquivalentTo(new[] { "Bob" });
-            }
+            _mockDb.Object.Delete<MyClass>(c => c.Name == name);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <Name> = @0", name));
         }
     }
 }
