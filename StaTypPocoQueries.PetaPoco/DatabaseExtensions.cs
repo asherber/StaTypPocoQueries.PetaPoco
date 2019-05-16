@@ -31,13 +31,13 @@ namespace PetaPoco
 {
     public static class DatabaseExtensions
     {
-        private static Sql ToSql<T>(this Expression<Func<T, bool>> query, Database db)
+        private static Sql ToSql<T>(this Expression<Func<T, bool>> query, IDatabase db)
         {
             var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
             return new Sql(translated.Item1, translated.Item2);
         }
 
-        private static Sql ToSql<T>(this FSharpExpr<FSharpFunc<T, bool>> query, Database db)
+        private static Sql ToSql<T>(this FSharpExpr<FSharpFunc<T, bool>> query, IDatabase db)
         {
             var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
             return new Sql(translated.Item1, translated.Item2);
@@ -51,7 +51,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>A List holding the results of the query</returns>
-        public static List<T> Fetch<T>(this Database db, Expression<Func<T, bool>> query) 
+        public static List<T> Fetch<T>(this IDatabase db, Expression<Func<T, bool>> query) 
             => db.Fetch<T>(query.ToSql(db));
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace PetaPoco
         ///     records for the specified page.  It will also execute a second query to retrieve the
         ///     total number of records in the result set.
         /// </remarks>
-        public static Page<T> Page<T>(this Database db, long page, long itemsPerPage, Expression<Func<T, bool>> query)
+        public static Page<T> Page<T>(this IDatabase db, long page, long itemsPerPage, Expression<Func<T, bool>> query)
             => db.Page<T>(page, itemsPerPage, query.ToSql(db));
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace PetaPoco
         ///     PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
         ///     records for the specified page.
         /// </remarks>
-        public static List<T> Fetch<T>(this Database db, long page, long itemsPerPage, Expression<Func<T, bool>> query)
+        public static List<T> Fetch<T>(this IDatabase db, long page, long itemsPerPage, Expression<Func<T, bool>> query)
             => db.Fetch<T>(page, itemsPerPage, query.ToSql(db));
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace PetaPoco
         ///     PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
         ///     records for the specified range.
         /// </remarks>
-        public static List<T> SkipTake<T>(this Database db, long skip, long take, Expression<Func<T, bool>> query)
+        public static List<T> SkipTake<T>(this IDatabase db, long skip, long take, Expression<Func<T, bool>> query)
             => db.SkipTake<T>(skip, take, query.ToSql(db));
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace PetaPoco
         ///     and disposing the previous one. In cases where this is an issue, consider using Fetch which
         ///     returns the results as a List rather than an IEnumerable.
         /// </remarks>
-        public static IEnumerable<T> Query<T>(this Database db, Expression<Func<T, bool>> query)
+        public static IEnumerable<T> Query<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.Query<T>(query.ToSql(db));
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace PetaPoco
         /// <remarks>
         ///     Throws an exception if there are zero or more than one matching record
         /// </remarks>
-        public static T Single<T>(this Database db, Expression<Func<T, bool>> query)
+        public static T Single<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.Single<T>(query.ToSql(db));
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the record to be retrieved."/> </param>
         /// <returns>The single record matching the specified condition, or default(T) if no matching rows</returns>
-        public static T SingleOrDefault<T>(this Database db, Expression<Func<T, bool>> query)
+        public static T SingleOrDefault<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.SingleOrDefault<T>(query.ToSql(db));
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>The first record in the result set</returns>
-        public static T First<T>(this Database db, Expression<Func<T, bool>> query)
+        public static T First<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.First<T>(query.ToSql(db));
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>The first record in the result set, or default(T) if no matching rows</returns>
-        public static T FirstOrDefault<T>(this Database db, Expression<Func<T, bool>> query)
+        public static T FirstOrDefault<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.FirstOrDefault<T>(query.ToSql(db));
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace PetaPoco
         ///     everything after "DELETE FROM tablename"
         /// </param>
         /// <returns>The number of affected rows</returns>
-        public static int Delete<T>(this Database db, Expression<Func<T, bool>> query)
+        public static int Delete<T>(this IDatabase db, Expression<Func<T, bool>> query)
             => db.Delete<T>(query.ToSql(db));
         #endregion
 
@@ -173,7 +173,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>A List holding the results of the query</returns>
-        public static List<T> Fetch<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static List<T> Fetch<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Fetch<T>(query.ToSql(db));
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace PetaPoco
         ///     records for the specified page.  It will also execute a second query to retrieve the
         ///     total number of records in the result set.
         /// </remarks>
-        public static Page<T> Page<T>(this Database db, long page, long itemsPerPage, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static Page<T> Page<T>(this IDatabase db, long page, long itemsPerPage, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Page<T>(page, itemsPerPage, query.ToSql(db));
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace PetaPoco
         ///     PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
         ///     records for the specified page.
         /// </remarks>
-        public static List<T> Fetch<T>(this Database db, long page, long itemsPerPage, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static List<T> Fetch<T>(this IDatabase db, long page, long itemsPerPage, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Fetch<T>(page, itemsPerPage, query.ToSql(db));
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace PetaPoco
         ///     PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
         ///     records for the specified range.
         /// </remarks>
-        public static List<T> SkipTake<T>(this Database db, long skip, long take, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static List<T> SkipTake<T>(this IDatabase db, long skip, long take, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.SkipTake<T>(skip, take, query.ToSql(db));
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace PetaPoco
         ///     and disposing the previous one. In cases where this is an issue, consider using Fetch which
         ///     returns the results as a List rather than an IEnumerable.
         /// </remarks>
-        public static IEnumerable<T> Query<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static IEnumerable<T> Query<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Query<T>(query.ToSql(db));
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace PetaPoco
         /// <remarks>
         ///     Throws an exception if there are zero or more than one matching record
         /// </remarks>
-        public static T Single<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static T Single<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Single<T>(query.ToSql(db));
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the record to be retrieved."/> </param>
         /// <returns>The single record matching the specified condition, or default(T) if no matching rows</returns>
-        public static T SingleOrDefault<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static T SingleOrDefault<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.SingleOrDefault<T>(query.ToSql(db));
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>The first record in the result set</returns>
-        public static T First<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static T First<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.First<T>(query.ToSql(db));
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace PetaPoco
         /// <typeparam name="T">The Type representing a row in the result set</typeparam>
         /// <param name="query">An Expression describing the records to be retrieved."/> </param>
         /// <returns>The first record in the result set, or default(T) if no matching rows</returns>
-        public static T FirstOrDefault<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static T FirstOrDefault<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.FirstOrDefault<T>(query.ToSql(db));
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace PetaPoco
         ///     everything after "DELETE FROM tablename"
         /// </param>
         /// <returns>The number of affected rows</returns>
-        public static int Delete<T>(this Database db, FSharpExpr<FSharpFunc<T, bool>> query)
+        public static int Delete<T>(this IDatabase db, FSharpExpr<FSharpFunc<T, bool>> query)
             => db.Delete<T>(query.ToSql(db));
         #endregion
     }

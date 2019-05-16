@@ -26,9 +26,9 @@ namespace StaTypPocoQueries.PetaPoco
 {
     public class DatabaseQuoter: Translator.IQuoter
     {
-        private readonly Database _db;
+        private readonly IDatabase _db;
 
-        public DatabaseQuoter(Database db)
+        public DatabaseQuoter(IDatabase db)
         {
             _db = db;
         }

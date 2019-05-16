@@ -7,13 +7,13 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>PetaPoco bindings for StaTypPocoQueries.</Description>
     <Authors>Aaron Sherber</Authors>
-    <Copyright>Copyright 2018</Copyright>
+    <Copyright>Copyright 2018-19</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/asherber/StaTypPocoQueries.PetaPoco</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/static-64.png</PackageIconUrl>
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
-    <PackageReleaseNotes>Use published StaTypPocoQueries instead of private build.</PackageReleaseNotes>
+    <PackageReleaseNotes>Extension methods now use IDatabase instead of Database</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
