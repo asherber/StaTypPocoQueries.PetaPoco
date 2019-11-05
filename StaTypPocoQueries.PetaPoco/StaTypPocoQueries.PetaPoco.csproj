@@ -15,6 +15,12 @@
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
     <PackageReleaseNotes>Extension methods now use IDatabase instead of Database</PackageReleaseNotes>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn);1591;1570;1587</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.353,7.0)" />

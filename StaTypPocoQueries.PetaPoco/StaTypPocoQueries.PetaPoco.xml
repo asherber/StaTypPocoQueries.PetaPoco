@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StaTypPocoQueries.PetaPoco</name>
+    </assembly>
+    <members>
+        <member name="M:PetaPoco.DatabaseExtensions.Fetch``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs a query and returns the result set as a typed list
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List holding the results of the query</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Page``1(PetaPoco.IDatabase,System.Int64,System.Int64,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Retrieves a page of records	and the total number of available records
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="page">The 1 based page number to retrieve</param>
+            <param name="itemsPerPage">The number of records per page</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A Page of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified page.  It will also execute a second query to retrieve the
+                total number of records in the result set.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Fetch``1(PetaPoco.IDatabase,System.Int64,System.Int64,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Retrieves a page of records (without the total count)
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="page">The 1 based page number to retrieve</param>
+            <param name="itemsPerPage">The number of records per page</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified page.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.SkipTake``1(PetaPoco.IDatabase,System.Int64,System.Int64,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Retrieves a range of records from result set
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="skip">The number of rows at the start of the result set to skip over</param>
+            <param name="take">The number of rows to retrieve</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified range.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Query``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs an SQL query, returning the results as an IEnumerable collection
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>An enumerable collection of result records</returns>
+            <remarks>
+                For some DB providers, care should be taken to not start a new Query before finishing with
+                and disposing the previous one. In cases where this is an issue, consider using Fetch which
+                returns the results as a List rather than an IEnumerable.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Single``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return a single row.
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the record to be retrieved."/> </param>
+            <returns>The single record matching the specified condition</returns>
+            <remarks>
+                Throws an exception if there are zero or more than one matching record
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.SingleOrDefault``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return either a single row, or no rows
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the record to be retrieved."/> </param>
+            <returns>The single record matching the specified condition, or default(T) if no matching rows</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.First``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return at least one row
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>The first record in the result set</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.FirstOrDefault``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Runs a query and returns the first record, or the default value if no matching records
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>The first record in the result set, or default(T) if no matching rows</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Delete``1(PetaPoco.IDatabase,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+                Performs an SQL Delete
+            </summary>
+            <typeparam name="T">The POCO class whose attributes specify the name of the table to delete from</typeparam>
+            <param name="query">
+                An Expression identifying the rows to delete (ie:
+                everything after "DELETE FROM tablename"
+            </param>
+            <returns>The number of affected rows</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Fetch``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs a query and returns the result set as a typed list
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List holding the results of the query</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Page``1(PetaPoco.IDatabase,System.Int64,System.Int64,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Retrieves a page of records	and the total number of available records
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="page">The 1 based page number to retrieve</param>
+            <param name="itemsPerPage">The number of records per page</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A Page of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified page.  It will also execute a second query to retrieve the
+                total number of records in the result set.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Fetch``1(PetaPoco.IDatabase,System.Int64,System.Int64,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Retrieves a page of records (without the total count)
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="page">The 1 based page number to retrieve</param>
+            <param name="itemsPerPage">The number of records per page</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified page.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.SkipTake``1(PetaPoco.IDatabase,System.Int64,System.Int64,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Retrieves a range of records from result set
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="skip">The number of rows at the start of the result set to skip over</param>
+            <param name="take">The number of rows to retrieve</param>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>A List of results</returns>
+            <remarks>
+                PetaPoco will automatically modify the supplied SELECT statement to only retrieve the
+                records for the specified range.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Query``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs an SQL query, returning the results as an IEnumerable collection
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>An enumerable collection of result records</returns>
+            <remarks>
+                For some DB providers, care should be taken to not start a new Query before finishing with
+                and disposing the previous one. In cases where this is an issue, consider using Fetch which
+                returns the results as a List rather than an IEnumerable.
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Single``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return a single row.
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the record to be retrieved."/> </param>
+            <returns>The single record matching the specified condition</returns>
+            <remarks>
+                Throws an exception if there are zero or more than one matching record
+            </remarks>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.SingleOrDefault``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return either a single row, or no rows
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the record to be retrieved."/> </param>
+            <returns>The single record matching the specified condition, or default(T) if no matching rows</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.First``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs a query that should always return at least one row
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>The first record in the result set</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.FirstOrDefault``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Runs a query and returns the first record, or the default value if no matching records
+            </summary>
+            <typeparam name="T">The Type representing a row in the result set</typeparam>
+            <param name="query">An Expression describing the records to be retrieved."/> </param>
+            <returns>The first record in the result set, or default(T) if no matching rows</returns>
+        </member>
+        <member name="M:PetaPoco.DatabaseExtensions.Delete``1(PetaPoco.IDatabase,Microsoft.FSharp.Quotations.FSharpExpr{Microsoft.FSharp.Core.FSharpFunc{``0,System.Boolean}})">
+            <summary>
+                Performs an SQL Delete
+            </summary>
+            <typeparam name="T">The POCO class whose attributes specify the name of the table to delete from</typeparam>
+            <param name="query">
+                An Expression identifying the rows to delete (ie:
+                everything after "DELETE FROM tablename"
+            </param>
+            <returns>The number of affected rows</returns>
+        </member>
+        <member name="M:StaTypPocoQueries.PetaPoco.DatabaseQuoter.QuoteColumn(System.String)">
+            <summary>
+            Use the Database's Provider to escape the SQL identifer.
+            </summary>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
