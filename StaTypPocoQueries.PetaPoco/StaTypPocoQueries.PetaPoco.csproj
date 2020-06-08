@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PetaPoco.Compiled" Version="[6.0.353,7.0)" />
+    <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
     <PackageReference Include="StaTypPocoQueries.Core" Version="[1.7,2)" />
   </ItemGroup>
 </Project>
