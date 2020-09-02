@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using StaTypPocoQueries.Core;
@@ -26,9 +27,14 @@ namespace PetaPoco
 {
     public static partial class DatabaseExtensions
     {
+        private static string ExtractColumnName(MemberInfo mi)
+        {
+            return mi.GetCustomAttribute<ColumnAttribute>()?.Name ?? mi.Name;
+        }
+        
         private static Sql ToSql<T>(this Expression<Func<T, bool>> query, IDatabase db)
         {
-            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
+            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query, true, ExtractColumnName);
             return new Sql(translated.Item1, translated.Item2);
         }
 

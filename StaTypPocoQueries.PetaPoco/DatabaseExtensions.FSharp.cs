@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.FSharp.Core;
@@ -27,9 +28,12 @@ namespace PetaPoco
 {
     public static partial class DatabaseExtensions
     {
+        private static readonly FSharpFunc<MemberInfo, string> FsExtractColumnName 
+            = ExpressionToSql.AsFsFunc<MemberInfo, string>(ExtractColumnName);
+
         private static Sql ToSql<T>(this FSharpExpr<FSharpFunc<T, bool>> query, IDatabase db)
         {
-            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query);
+            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query, true, FsExtractColumnName);
             return new Sql(translated.Item1, translated.Item2);
         }
 

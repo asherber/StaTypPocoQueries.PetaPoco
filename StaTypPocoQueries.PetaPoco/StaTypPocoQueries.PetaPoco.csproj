@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/static-64.png</PackageIconUrl>
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
-    <PackageReleaseNotes>Extension methods now use IDatabase instead of Database</PackageReleaseNotes>
+    <PackageReleaseNotes>Methods will now correctly read Column attributes on properties when building SQL</PackageReleaseNotes>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -24,6 +24,6 @@
 
   <ItemGroup>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
-    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.7,2)" />
+    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.9.0,2)" />
   </ItemGroup>
 </Project>

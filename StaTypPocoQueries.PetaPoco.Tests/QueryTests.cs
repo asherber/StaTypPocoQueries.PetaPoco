@@ -28,6 +28,8 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         {
             public int ID { get; set; }
             public string Name { get; set; }
+            [Column("RealColumnName")]
+            public string PropWithAttribute { get; set; }
         }
 
         private Mock<IDatabase> _mockDb;
@@ -56,6 +58,13 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         {
             _mockDb.Object.Delete<MyClass>(c => c.Name == name);
             _lastSql.Should().BeEquivalentTo(new Sql("WHERE <Name> = @0", name));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Column_Attribute(string value)
+        {
+            _mockDb.Object.Query<MyClass>(c => c.PropWithAttribute == value);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <RealColumnName> = @0", value));
         }
     }
 }
