@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>StaTypPocoQueries.PetaPoco</AssemblyName>
@@ -15,15 +14,13 @@
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
     <PackageReleaseNotes>Methods will now correctly read Column attributes on properties when building SQL</PackageReleaseNotes>
   </PropertyGroup>
-  
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591;1570;1587</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
-    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.9.0,2)" />
+    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.13.0,2)" />
   </ItemGroup>
 </Project>

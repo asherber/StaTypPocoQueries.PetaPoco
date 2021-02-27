@@ -31,10 +31,20 @@ namespace PetaPoco
         {
             return mi.GetCustomAttribute<ColumnAttribute>()?.Name ?? mi.Name;
         }
+
+        private static object InvokeValueConverter(PropertyInfo pi, object input)
+        {
+            var converter = pi.GetCustomAttribute<ValueConverterAttribute>(true);
+
+            return converter == null ? input : converter.ConvertToDb(input);
+        }
         
         private static Sql ToSql<T>(this Expression<Func<T, bool>> query, IDatabase db)
         {
-            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query, true, ExtractColumnName);
+            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query, 
+                includeWhere: true, 
+                customNameExtractor: ExtractColumnName,
+                customParameterValueMap: InvokeValueConverter);
             return new Sql(translated.Item1, translated.Item2);
         }
 

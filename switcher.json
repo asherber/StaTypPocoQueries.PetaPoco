@@ -1,0 +1,6 @@
+{
+  "solution": "StaTypPocoQueries.PetaPoco.sln",
+  "mappings": {
+    "StaTypPocoQueries.Core": "../statically-typed-poco-queries/StaTypPocoQueries.Core/StaTypPocoQueries.Core.fsproj"
+  }
+}

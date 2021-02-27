@@ -27,9 +27,25 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         private class MyClass
         {
             public int ID { get; set; }
+
             public string Name { get; set; }
+
             [Column("RealColumnName")]
             public string PropWithAttribute { get; set; }
+
+            public FoodEnum PlainFood { get; set; }
+
+            [FoodEnumConverter]
+            public FoodEnum ConvertedFood { get; set; }
+        }
+
+        public enum FoodEnum { Apple, Banana, Carrot };
+
+        private class FoodEnumConverter : ValueConverterAttribute
+        {
+            public override object ConvertFromDb(object value) => throw new NotImplementedException();            
+
+            public override object ConvertToDb(object value) => value.ToString();
         }
 
         private Mock<IDatabase> _mockDb;
@@ -65,6 +81,20 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         {
             _mockDb.Object.Query<MyClass>(c => c.PropWithAttribute == value);
             _lastSql.Should().BeEquivalentTo(new Sql("WHERE <RealColumnName> = @0", value));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Value_Converter(FoodEnum food)
+        {
+            _mockDb.Object.Query<MyClass>(c => c.ConvertedFood == food);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <ConvertedFood> = @0", food.ToString()));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Plain_Value_With_No_Value_Converter(FoodEnum food)
+        {
+            _mockDb.Object.Query<MyClass>(c => c.PlainFood == food);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <PlainFood> = @0", (int)food));
         }
     }
 }
