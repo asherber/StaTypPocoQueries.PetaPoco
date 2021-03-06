@@ -65,15 +65,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             _mockDb.Setup(m => m.Provider).Returns(new AngleDatabaseProvider());
             _mockDb.Setup(m => m.DefaultMapper).Returns(new ConventionMapper());
 
-            FlushPocoDataCache();            
-        }
-
-        private void FlushPocoDataCache()
-        {
-            // This avoids having to upgrade PP just to get FlushCaches()
-            var cache = typeof(PocoData).GetField("_pocoDatas", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-            var flush = cache.GetType().GetMethod("Flush");
-            flush.Invoke(cache, null);
+            Mappers.RevokeAll();
         }
 
         [Theory, AutoData]
@@ -112,7 +104,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         }
 
         [Theory, AutoData]
-        public void Query_Should_Use_Mapper_For_Names(string value)
+        public void Query_Should_Use_Default_Mapper_For_Names(string value)
         {
             _mockDb.Setup(m => m.DefaultMapper).Returns(new UnderscoreMapper());
             _mockDb.Object.Query<MyClass>(c => c.MultiWordName == value);
@@ -120,9 +112,27 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         }
 
         [Theory, AutoData]
-        public void Query_Should_Use_Mapper_For_Values(string value)
+        public void Query_Should_Use_Default_Mapper_For_Values(string value)
         {
             _mockDb.Setup(m => m.DefaultMapper).Returns(new SubstituteStringMapper());
+            _mockDb.Object.Query<MyClass>(c => c.Name == value);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <Name> = @0", "SUBSTITUTE STRING"));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Global_Mapper_For_Names(string value)
+        {
+            Mappers.Register(typeof(MyClass), new UnderscoreMapper());
+            
+            _mockDb.Object.Query<MyClass>(c => c.MultiWordName == value);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <multi_word_name> = @0", value));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Global_Mapper_For_Values(string value)
+        {
+            Mappers.Register(typeof(MyClass), new SubstituteStringMapper());
+
             _mockDb.Object.Query<MyClass>(c => c.Name == value);
             _lastSql.Should().BeEquivalentTo(new Sql("WHERE <Name> = @0", "SUBSTITUTE STRING"));
         }

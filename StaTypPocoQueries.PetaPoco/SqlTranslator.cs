@@ -64,21 +64,32 @@ namespace StaTypPocoQueries.PetaPoco
 
         private string GetColumnName(MemberInfo mi)
         {
+            var result = mi.Name;
+
             if (mi is PropertyInfo pi)
             {
-                var pd = PocoData.ForType(mi.DeclaringType, _db.DefaultMapper);
-                return pd.GetColumnName(pi.Name);
+                var mapper = GetMapper(pi);
+
+                try
+                {
+                    var ci = mapper.GetColumnInfo(pi);
+                    result = ci.ColumnName;
+                }
+                catch { }
             }
-            else
-                return mi.Name;
+
+            return result;
         }
 
         
         private object GetConvertedValue(PropertyInfo pi, object input)
         {
-            var converter = _db.DefaultMapper.GetToDbConverter(pi);            
+            var mapper = GetMapper(pi);
+            var converter = mapper.GetToDbConverter(pi);            
             return converter == null ? input : converter(input);
         }
+
+        private IMapper GetMapper(PropertyInfo pi) => Mappers.GetMapper(pi.DeclaringType, _db.DefaultMapper);
 
         private FSharpFunc<MemberInfo, string> FsGetColumnName
             => ExpressionToSql.AsFsFunc<MemberInfo, string>(GetColumnName);
