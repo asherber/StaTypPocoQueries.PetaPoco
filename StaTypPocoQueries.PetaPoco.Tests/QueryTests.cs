@@ -10,6 +10,7 @@ using System.Data.Common;
 using Moq;
 using System.Collections.Generic;
 using AutoFixture.Xunit2;
+using System.Reflection;
 
 namespace StaTypPocoQueries.PetaPoco.Tests
 {
@@ -37,6 +38,8 @@ namespace StaTypPocoQueries.PetaPoco.Tests
 
             [FoodEnumConverter]
             public FoodEnum ConvertedFood { get; set; }
+
+            public string MultiWordName { get; set; }
         }
 
         public enum FoodEnum { Apple, Banana, Carrot };
@@ -60,6 +63,17 @@ namespace StaTypPocoQueries.PetaPoco.Tests
             _mockDb.Setup(m => m.Delete<MyClass>(It.IsAny<Sql>()))
                 .Callback<Sql>(s => _lastSql = s);
             _mockDb.Setup(m => m.Provider).Returns(new AngleDatabaseProvider());
+            _mockDb.Setup(m => m.DefaultMapper).Returns(new ConventionMapper());
+
+            FlushPocoDataCache();            
+        }
+
+        private void FlushPocoDataCache()
+        {
+            // This avoids having to upgrade PP just to get FlushCaches()
+            var cache = typeof(PocoData).GetField("_pocoDatas", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            var flush = cache.GetType().GetMethod("Flush");
+            flush.Invoke(cache, null);
         }
 
         [Theory, AutoData]
@@ -95,6 +109,22 @@ namespace StaTypPocoQueries.PetaPoco.Tests
         {
             _mockDb.Object.Query<MyClass>(c => c.PlainFood == food);
             _lastSql.Should().BeEquivalentTo(new Sql("WHERE <PlainFood> = @0", (int)food));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Mapper_For_Names(string value)
+        {
+            _mockDb.Setup(m => m.DefaultMapper).Returns(new UnderscoreMapper());
+            _mockDb.Object.Query<MyClass>(c => c.MultiWordName == value);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <multi_word_name> = @0", value));
+        }
+
+        [Theory, AutoData]
+        public void Query_Should_Use_Mapper_For_Values(string value)
+        {
+            _mockDb.Setup(m => m.DefaultMapper).Returns(new SubstituteStringMapper());
+            _mockDb.Object.Query<MyClass>(c => c.Name == value);
+            _lastSql.Should().BeEquivalentTo(new Sql("WHERE <Name> = @0", "SUBSTITUTE STRING"));
         }
     }
 }

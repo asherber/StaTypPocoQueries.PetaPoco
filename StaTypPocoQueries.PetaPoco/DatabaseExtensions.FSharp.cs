@@ -28,24 +28,10 @@ namespace PetaPoco
 {
     public static partial class DatabaseExtensions
     {
-        private static readonly FSharpFunc<MemberInfo, string> FsExtractColumnName 
-            = ExpressionToSql.AsFsFunc<MemberInfo, string>(ExtractColumnName);
-
-        // Helpful precis: https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application/
-        private static readonly FSharpFunc<PropertyInfo, FSharpFunc<object, object>> FsInvokeValueConverter
-            = ExpressionToSql.AsFsFunc<PropertyInfo, FSharpFunc<object, object>>(
-                pi => ExpressionToSql.AsFsFunc<object, object>(
-                    input => InvokeValueConverter(pi, input)
-                )
-            );
-
         private static Sql ToSql<T>(this FSharpExpr<FSharpFunc<T, bool>> query, IDatabase db)
         {
-            var translated = ExpressionToSql.Translate(new DatabaseQuoter(db), query, 
-                includeWhere: true, 
-                customNameExtractor: FsExtractColumnName, 
-                customParameterValueMap: FsInvokeValueConverter);
-            return new Sql(translated.Item1, translated.Item2);
+            var translator = new SqlTranslator(db);
+            return translator.Translate(query);
         }
 
 
