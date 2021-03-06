@@ -64,21 +64,14 @@ namespace StaTypPocoQueries.PetaPoco
 
         private string GetColumnName(MemberInfo mi)
         {
-            var result = mi.Name;
-
             if (mi is PropertyInfo pi)
             {
                 var mapper = GetMapper(pi);
-
-                try
-                {
-                    var ci = mapper.GetColumnInfo(pi);
-                    result = ci.ColumnName;
-                }
-                catch { }
+                var ci = mapper.GetColumnInfo(pi);
+                return ci.ColumnName;
             }
-
-            return result;
+            else
+                return mi.Name;
         }
 
         
