@@ -6,18 +6,18 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>PetaPoco bindings for StaTypPocoQueries.</Description>
     <Authors>Aaron Sherber</Authors>
-    <Copyright>Copyright 2018-19</Copyright>
+    <Copyright>Copyright 2018-21</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/asherber/StaTypPocoQueries.PetaPoco</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/static-64.png</PackageIconUrl>
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
-    <PackageReleaseNotes>Methods will now correctly read Column attributes on properties when building SQL</PackageReleaseNotes>
+    <PackageReleaseNotes>Methods will now use mapper for names and values when building SQL</PackageReleaseNotes>    
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>$(NoWarn);1591;1570;1587</NoWarn>
+    <NoWarn>1701;1702;1591;1570;1587;CS1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
