@@ -23,6 +23,7 @@ namespace StaTypPocoQueries.PetaPoco.Tests
      * just to test that. Delete needs to be tested separately.
      */
 
+    [Collection("TestsWithMappers")]
     public class QueryTests
     {
         private class MyClass
