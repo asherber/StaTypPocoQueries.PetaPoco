@@ -20,7 +20,11 @@
     <NoWarn>1701;1702;1591;1570;1587;CS1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net45" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
-    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.13.0,2)" />
+    <PackageReference Include="StaTypPocoQueries.Core" Version="[2,3)" />
   </ItemGroup>
 </Project>

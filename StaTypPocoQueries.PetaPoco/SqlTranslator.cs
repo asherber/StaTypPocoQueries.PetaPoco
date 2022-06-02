@@ -62,12 +62,13 @@ namespace StaTypPocoQueries.PetaPoco
             return new Sql(translated.Item1, translated.Item2);
         }
 
-        private string GetColumnName(MemberInfo mi)
+        private string GetColumnName(MemberInfo mi, Type type)
         {
             if (mi is PropertyInfo pi)
             {
-                var mapper = GetMapper(pi);
-                var ci = mapper.GetColumnInfo(pi);
+                var mapper = GetMapper(type);
+                var realPI = type.GetProperty(pi.Name);
+                var ci = mapper.GetColumnInfo(realPI);
                 return ci.ColumnName;
             }
             else
@@ -75,23 +76,24 @@ namespace StaTypPocoQueries.PetaPoco
         }
 
         
-        private object GetConvertedValue(PropertyInfo pi, object input)
+        private object GetConvertedValue(PropertyInfo pi, Type type, object input)
         {
-            var mapper = GetMapper(pi);
-            var converter = mapper.GetToDbConverter(pi);            
+            var mapper = GetMapper(type);
+            var realPI = type.GetProperty(pi.Name);
+            var converter = mapper.GetToDbConverter(realPI);            
             return converter == null ? input : converter(input);
         }
 
-        private IMapper GetMapper(PropertyInfo pi) => Mappers.GetMapper(pi.DeclaringType, _db.DefaultMapper);
+        private IMapper GetMapper(Type type) => Mappers.GetMapper(type, _db.DefaultMapper);
 
-        private FSharpFunc<MemberInfo, string> FsGetColumnName
-            => ExpressionToSql.AsFsFunc<MemberInfo, string>(GetColumnName);
+        private FSharpFunc<MemberInfo, FSharpFunc<Type, string>> FsGetColumnName
+            => ExpressionToSql.AsFsFunc3<MemberInfo, Type, string>(GetColumnName);
 
         // Helpful precis: https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application/
-        private FSharpFunc<PropertyInfo, FSharpFunc<object, object>> FsGetConvertedValue
-            => ExpressionToSql.AsFsFunc<PropertyInfo, FSharpFunc<object, object>>(
-                pi => ExpressionToSql.AsFsFunc<object, object>(
-                    input => GetConvertedValue(pi, input)
+        private FSharpFunc<PropertyInfo, FSharpFunc<Type, FSharpFunc<object, object>>> FsGetConvertedValue
+            => ExpressionToSql.AsFsFunc<PropertyInfo, FSharpFunc<Type, FSharpFunc<object, object>>>(
+                pi => ExpressionToSql.AsFsFunc3<Type, object, object>(
+                    (type, input) => GetConvertedValue(pi, type, input)
                 )
             );
     }
