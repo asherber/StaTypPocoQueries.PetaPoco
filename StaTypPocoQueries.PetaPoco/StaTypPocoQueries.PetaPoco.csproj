@@ -11,8 +11,10 @@
     <RepositoryUrl>https://github.com/asherber/StaTypPocoQueries.PetaPoco</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/master/media/static-64.png</PackageIconUrl>
+    <PackageIcon>static-64.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>petapoco statyppocoqueries statically typed</PackageTags>
-    <PackageReleaseNotes>Methods will now use mapper for names and values when building SQL</PackageReleaseNotes>    
+    <PackageReleaseNotes>Upgrade base library to v2</PackageReleaseNotes>    
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -20,7 +22,15 @@
     <NoWarn>1701;1702;1591;1570;1587;CS1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net45" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="PetaPoco.Compiled" Version="[6.0.394,7.0)" />
-    <PackageReference Include="StaTypPocoQueries.Core" Version="[1.13.0,2)" />
+    <PackageReference Include="StaTypPocoQueries.Core" Version="[2,3)" />
+  </ItemGroup>
+  <ItemGroup>   
+    <None Include="../media/static-64.png" Pack="true" PackagePath="\"/>
+    <None Include="../README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>

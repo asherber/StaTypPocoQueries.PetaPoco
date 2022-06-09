@@ -1,6 +1,6 @@
-![Icon](https://github.com/asherber/StaTypPocoQueries.PetaPoco/raw/master/media/static-64.png)
+![Icon](https://raw.githubusercontent.com/asherber/StaTypPocoQueries.PetaPoco/main/media/static-64.png)
 
-# StaTypPocoQueries.PetaPoco [![NuGet](https://img.shields.io/nuget/v/StaTypPocoQueries.PetaPoco.svg)](https://nuget.org/packages/StaTypPocoQueries.PetaPoco)
+# StaTypPocoQueries.PetaPoco [![NuGet](https://img.shields.io/nuget/v/StaTypPocoQueries.PetaPoco.svg)](https://nuget.org/packages/StaTypPocoQueries.PetaPoco) [![CI](https://github.com/asherber/StaTypPocoQueries.PetaPoco/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/asherber/StaTypPocoQueries.PetaPoco/actions?query=branch%3A+main)
 
 [PetaPoco](https://github.com/CollaboratingPlatypus/PetaPoco) bindings for [StaTypPocoQueries](https://github.com/d-p-y/statically-typed-poco-queries), allowing you to use some simple, strongly typed, Intellisensed LINQ expressions in your queries. 
 
