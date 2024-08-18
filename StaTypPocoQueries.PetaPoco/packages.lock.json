@@ -4,18 +4,18 @@
     ".NETFramework,Version=v4.5": {
       "Microsoft.NETFramework.ReferenceAssemblies": {
         "type": "Direct",
-        "requested": "[1.0.2, )",
-        "resolved": "1.0.2",
-        "contentHash": "5/cSEVld+px/CuRrbohO/djfg6++eR6zGpy88MgqloXvkj//WXWpFZyu/OpkXPN0u5m+dN/EVwLNYFUxD4h2+A==",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
         "dependencies": {
-          "Microsoft.NETFramework.ReferenceAssemblies.net45": "1.0.2"
+          "Microsoft.NETFramework.ReferenceAssemblies.net45": "1.0.3"
         }
       },
       "Microsoft.NETFramework.ReferenceAssemblies.net45": {
         "type": "Direct",
-        "requested": "[1.0.2, )",
-        "resolved": "1.0.2",
-        "contentHash": "Nm14pRmqB+4u2JEMdtngnbDcJidTmswMxOJ992TpTwiwcUTERxLlHwwSh0HiUoRjS0TO0sozsiB0h6FHjCUdEA=="
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "dcSLNuUX2rfZejsyta2EWZ1W5U6ucbFt697lRg1qiTlTM5ZlYv4uAvuxE6ROy6xLWWhLhOaReCDxkhxcajRYtQ=="
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
@@ -53,9 +53,9 @@
     ".NETStandard,Version=v2.0": {
       "Microsoft.NETFramework.ReferenceAssemblies.net45": {
         "type": "Direct",
-        "requested": "[1.0.2, )",
-        "resolved": "1.0.2",
-        "contentHash": "Nm14pRmqB+4u2JEMdtngnbDcJidTmswMxOJ992TpTwiwcUTERxLlHwwSh0HiUoRjS0TO0sozsiB0h6FHjCUdEA=="
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "dcSLNuUX2rfZejsyta2EWZ1W5U6ucbFt697lRg1qiTlTM5ZlYv4uAvuxE6ROy6xLWWhLhOaReCDxkhxcajRYtQ=="
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
