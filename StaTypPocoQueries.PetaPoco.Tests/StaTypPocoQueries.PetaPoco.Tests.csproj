@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net462</TargetFrameworks>
-	  <IsPackable>false</IsPackable>
+	<IsPackable>false</IsPackable>
+	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
